@@ -7,7 +7,7 @@ class TileGroup(pygame.sprite.Group):
         # To undo delete bottom 2 lines and remove level parameter above
         # with open("file"+level+".txt"):
         #     self.tiles.add(Tile())
-
+        
         
         super().__init__()
 
