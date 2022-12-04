@@ -2,7 +2,7 @@ import random
 import pygame
 from ..components.sprite import MySprite
 from screens import BaseScreen
-
+#import score here 
 from ..components import Paddle, Ball, TileGroup
 from components import TextBox
 
@@ -10,7 +10,7 @@ from components import TextBox
 class GameScreen(BaseScreen):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        #Call score object here from justin's screen
         # Create background and set mario location 
         self.background=MySprite()
         self.background.rect.x=300
@@ -25,7 +25,7 @@ class GameScreen(BaseScreen):
 
         self.ball.angle = random.randint(0, 31416) / 10000
 
-        # Create the tiles
+        # Create the tiles from a file 
         self.tiles = TileGroup(tile_width=120, tile_height=30)
 
         # Put all sprites in the group
@@ -34,6 +34,7 @@ class GameScreen(BaseScreen):
         self.sprites.add(self.paddle)
         self.sprites.add(self.ball)
     # looks at colissions using this method
+    
     def update(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
@@ -44,18 +45,23 @@ class GameScreen(BaseScreen):
         
         self.sprites.update()
         collided = self.ball.collidetiles(self.tiles)
+        # print(collided) can calculate score 
 
         caught_the_ball = self.ball.collidepaddle(self.paddle.rect)
 
         if self.ball.rect.bottom > self.paddle.rect.top and not caught_the_ball:
             self.running = False
             self.next_screen = "game_over"
-
+        # insert levels here
+        print(len(self.tiles))
+        #pygame render text in draw method 
+        
     def draw(self):
         self.window.fill((255, 255, 255))
         self.sprites.draw(self.window)
         self.tiles.draw(self.window)
         # self.window.blit()
+        #
 
     def manage_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

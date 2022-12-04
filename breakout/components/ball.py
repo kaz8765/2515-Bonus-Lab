@@ -75,7 +75,8 @@ class Ball(MySprite):
 
         for sprite in collided:
             self.bounce_from(sprite.rect)
-
+        if (len(collided)>0):
+            print(collided)
         return len(collided)
 
     @property
