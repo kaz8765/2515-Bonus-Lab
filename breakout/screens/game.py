@@ -4,7 +4,7 @@ from ..components.sprite import MySprite
 from screens import BaseScreen
 #import score here 
 from ..components import Paddle, Ball, TileGroup
-from components import TextBox
+from components import TextBox, text
 
 
 class GameScreen(BaseScreen):
@@ -15,6 +15,11 @@ class GameScreen(BaseScreen):
         self.background=MySprite()
         self.background.rect.x=300
         self.background.rect.y=300
+
+        self.new_window = pygame.display.set_mode((800, 800))
+        surf = pygame.Surface((100, 100))
+        surf.fill((0, 0, 0))
+        self.new_window.blit(surf, (50, 50))
 
         # Create the paddle
         self.paddle = Paddle(200, 30, (0, 255, 0), limits=self.rect)
@@ -36,6 +41,8 @@ class GameScreen(BaseScreen):
     # looks at colissions using this method
     
     def update(self):
+
+        
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.paddle.move("left")
@@ -45,7 +52,20 @@ class GameScreen(BaseScreen):
         
         self.sprites.update()
         collided = self.ball.collidetiles(self.tiles)
-        # print(collided) can calculate score 
+        print(collided) #can calculate score 
+        
+        
+
+        # window = pygame.display.set_mode((700, 700))
+        # window.fill((100, 255, 255))
+
+        # self.score=0
+        # self.score_font=pygame.font.SysFont("comicsans", 50)
+        # self.text=self.score_font.render(str(self.score), True,(255,255,255))
+
+
+       
+
 
         caught_the_ball = self.ball.collidepaddle(self.paddle.rect)
 
@@ -55,13 +75,15 @@ class GameScreen(BaseScreen):
         # insert levels here
         print(len(self.tiles))
         #pygame render text in draw method 
+
         
+
+
     def draw(self):
         self.window.fill((255, 255, 255))
         self.sprites.draw(self.window)
         self.tiles.draw(self.window)
-        # self.window.blit()
-        #
+
 
     def manage_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

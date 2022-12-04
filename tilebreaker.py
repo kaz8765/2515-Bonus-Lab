@@ -9,6 +9,10 @@ class Game:
         # Creates the window
         #Use variables here and dimessions computed 
         self.window = pygame.display.set_mode((800, 800))
+    
+        
+        
+        
 
     def run(self):
         """Main method, manages interaction between screens"""

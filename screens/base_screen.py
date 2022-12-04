@@ -25,10 +25,15 @@ class BaseScreen:
         while self.running:
             # Tick the clock
             # Slow down the game 
+            
+
             clock.tick(40)
             # Do whatever is needed to update the screen objects
             self.update()
             # Draw the objects on the screen
+
+
+
             self.draw()
             # Update the display
             pygame.display.update()
