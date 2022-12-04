@@ -8,7 +8,8 @@ class BaseScreen:
         # window surface
         self.window = window
         # By default, there is no next screen (= game quits)
-        self.next_screen = False
+        self.next_screen = True
+      
 
     def run(self):
         """
@@ -25,15 +26,10 @@ class BaseScreen:
         while self.running:
             # Tick the clock
             # Slow down the game 
-            
-
             clock.tick(40)
             # Do whatever is needed to update the screen objects
             self.update()
             # Draw the objects on the screen
-
-
-
             self.draw()
             # Update the display
             pygame.display.update()

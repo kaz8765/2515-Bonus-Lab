@@ -7,6 +7,9 @@ class GameOverScreen(BaseScreen):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.sprites = pygame.sprite.Group()
+
+
+
         self.button1 = TextBox(
             (200, 100), "Again", color=(255, 0, 0), bgcolor=(120, 120, 120)
         )

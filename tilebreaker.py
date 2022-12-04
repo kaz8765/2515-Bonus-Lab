@@ -8,9 +8,11 @@ class Game:
     def __init__(self):
         # Creates the window
         #Use variables here and dimessions computed 
-        self.window = pygame.display.set_mode((800, 800))
-    
-        
+        width=800
+        height=800
+        self.window = pygame.display.set_mode((width, height))
+
+         
         
         
 

@@ -15,11 +15,9 @@ class GameScreen(BaseScreen):
         self.background=MySprite()
         self.background.rect.x=300
         self.background.rect.y=300
+        self.score=0
+        self.multiplier=1
 
-        self.new_window = pygame.display.set_mode((800, 800))
-        surf = pygame.Surface((100, 100))
-        surf.fill((0, 0, 0))
-        self.new_window.blit(surf, (50, 50))
 
         # Create the paddle
         self.paddle = Paddle(200, 30, (0, 255, 0), limits=self.rect)
@@ -52,30 +50,42 @@ class GameScreen(BaseScreen):
         
         self.sprites.update()
         collided = self.ball.collidetiles(self.tiles)
-        print(collided) #can calculate score 
+        print(collided) #can be used to calculate score 
+
+        if collided:
+            self.score+=self.multiplier
+            self.multiplier+=2
         
         
+        caught_the_ball = self.ball.collidepaddle(self.paddle.rect)
 
-        # window = pygame.display.set_mode((700, 700))
-        # window.fill((100, 255, 255))
-
-        # self.score=0
-        # self.score_font=pygame.font.SysFont("comicsans", 50)
-        # self.text=self.score_font.render(str(self.score), True,(255,255,255))
+        if caught_the_ball:
+            self.multiplier=1
+            
+        print(self.score)
 
 
        
 
 
-        caught_the_ball = self.ball.collidepaddle(self.paddle.rect)
 
         if self.ball.rect.bottom > self.paddle.rect.top and not caught_the_ball:
             self.running = False
             self.next_screen = "game_over"
-        # insert levels here
-        print(len(self.tiles))
-        #pygame render text in draw method 
+            print("Test")
+            print(f'Score: {self.score}')
 
+        font = pygame.font.SysFont('comicsans', 30)
+        
+        text = font.render(str(self.score), True, (255, 255, 255))
+        #just need to display score 
+        # insert levels here
+        print(f'Tile Length {len(self.tiles)}')
+        #pygame render text in draw method 
+        window = pygame.display.set_mode((800, 800))
+        window.fill((255, 255, 255))
+        surf = pygame.Surface((900, 900))
+        window.blit(surf, (50, 50))
         
 
 
