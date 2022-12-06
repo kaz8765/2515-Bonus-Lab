@@ -2,22 +2,33 @@ import random
 import pygame
 from ..components.sprite import MySprite
 from screens import BaseScreen
-#import score here 
-from ..components import Paddle, Ball, TileGroup
+#import score here
+from ..components import Paddle, Ball, TileGroup, Score
 from components import TextBox, text
+import time
+
+
 
 
 class GameScreen(BaseScreen):
     def __init__(self, *args, **kwargs):
+        
+        # Initializing scoring variable
+        self.score=Score()
+        self.multiplier=1
+        #Looks at time taken to complete a round, starts here
+        self.time_start = time.time()
+
+        #Call score object here
         super().__init__(*args, **kwargs)
-        #Call score object here from justin's screen
+
         # Create background and set mario location 
         self.background=MySprite()
         self.background.rect.x=300
         self.background.rect.y=300
-        self.score=0
+        
         self.multiplier=1
-
+        
 
         # Create the paddle
         self.paddle = Paddle(200, 30, (0, 255, 0), limits=self.rect)
@@ -39,8 +50,10 @@ class GameScreen(BaseScreen):
     # looks at colissions using this method
     
     def update(self):
-
         
+
+        level=0
+
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.paddle.move("left")
@@ -50,50 +63,75 @@ class GameScreen(BaseScreen):
         
         self.sprites.update()
         collided = self.ball.collidetiles(self.tiles)
-        print(collided) #can be used to calculate score 
+        # print(collided) #can be used to calculate score 
 
+                
+        self.tiles_left=int(len(self.tiles)/4)
+
+        if self.tiles_left==0:
+            print("Next Level")
+            self.tiles = TileGroup(tile_width=120, tile_height=30, level=level)
+            level+=1
+
+        #Created scoring system below and multiplier 
         if collided:
-            self.score+=self.multiplier
-            self.multiplier+=2
+            #accessing score in score object
+            self.score.score+=(1+self.multiplier)
+            self.multiplier+=0.25
+        # rendering score on screen
+        self.score.text=self.score.font.render(str(self.score.score),True,(0,0,0))
+
         
         
         caught_the_ball = self.ball.collidepaddle(self.paddle.rect)
-
+        #Multiplier diminishes if the paddle is touched
         if caught_the_ball:
             self.multiplier=1
-            
-        print(self.score)
-
-
-       
+         
+        
 
 
 
         if self.ball.rect.bottom > self.paddle.rect.top and not caught_the_ball:
             self.running = False
             self.next_screen = "game_over"
-            print("Test")
-            print(f'Score: {self.score}')
 
-        font = pygame.font.SysFont('comicsans', 30)
+            # Outputs final score based on multiplierand time taken to complete in the console
+            self.time_end = time.time()
+            self.elapsed_time_penalty=(self.time_end-self.time_start)/10
+            self.final_score=self.score.score/self.elapsed_time_penalty
+            print(f'Final Score: {self.final_score}')
+            print(f'Tile Length {len(self.tiles)}')    
+
+            #Writing score to a file
+            f = open("score.txt", "a")
+            posted_score=str(round(self.final_score,2))
+            f.write(posted_score+'\n')
+            f.close()
+            print(posted_score)
+
+
+
+            
         
-        text = font.render(str(self.score), True, (255, 255, 255))
-        #just need to display score 
+        
+        
+        
+
+
+
+
+     
         # insert levels here
-        print(f'Tile Length {len(self.tiles)}')
-        #pygame render text in draw method 
-        window = pygame.display.set_mode((800, 800))
-        window.fill((255, 255, 255))
-        surf = pygame.Surface((900, 900))
-        window.blit(surf, (50, 50))
         
+       
 
 
     def draw(self):
         self.window.fill((255, 255, 255))
         self.sprites.draw(self.window)
         self.tiles.draw(self.window)
-
+        self.window.blit(self.score.text,(500,500))
 
     def manage_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

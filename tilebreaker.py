@@ -7,7 +7,7 @@ class Game:
 
     def __init__(self):
         # Creates the window
-        #Use variables here and dimessions computed 
+        #Use variables here and dimesnions computed 
         width=800
         height=800
         self.window = pygame.display.set_mode((width, height))
@@ -42,10 +42,14 @@ class Game:
             screen.run()
 
             # When the `run` method stops, we should have a `next_screen` setup
+            
+            
             if screen.next_screen is False:
                 running = False
             # Switch to the next screen
             current_screen = screen.next_screen
+
+
 
 
 if __name__ == "__main__":

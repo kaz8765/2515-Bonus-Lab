@@ -59,9 +59,11 @@ class BaseScreen:
         print("You should override the DRAW method in your class...")
 
     def update(self):
-        """Child classes should override this method"""
+        pass
+        
+        # """Child classes should override this method"""
 
-        print("You should override the UPDATE method in your class...")
+        # print("You should override the UPDATE method in your class...")
 
     def manage_event(self, event):
         """Child classes should override this method"""

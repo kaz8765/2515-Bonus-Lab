@@ -4,6 +4,7 @@ import pygame
 class MySprite(pygame.sprite.Sprite):
     """Custom Sprite class with added features"""
     # Loading images here
+    # adding Mario sprite graphics here
     base_image = pygame.image.load("mario.png")
 
     
@@ -11,7 +12,7 @@ class MySprite(pygame.sprite.Sprite):
         """If limits is provided (rect), then the sprite will always stay within the limits"""
         super().__init__()
         self.limits = limits
-        # Have to do lines below to load image 
+        #Scaling Mario image here
         self.image = pygame.transform.scale(self.base_image, (250, 250))
         self.rect = self.image.get_rect()
 

@@ -8,7 +8,7 @@ class WelcomeScreen(BaseScreen):
         super().__init__(*args, **kwargs)
         self.sprites = pygame.sprite.Group()
         self.button = TextBox(
-            (200, 100), "Press SPACE", color=(255, 255, 255), bgcolor=(0, 0, 0)
+            (400, 100), "Press SPACE", color=(255, 255, 255), bgcolor=(0, 0, 0)
         )
         self.sprites.add(self.button)
 
